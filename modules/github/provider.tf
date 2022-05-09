@@ -8,3 +8,8 @@ terraform {
 
   required_version = "~> 1.1.9"
 }
+
+provider "github" {
+    token = var.github_token
+}
+
