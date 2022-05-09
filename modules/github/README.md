@@ -7,8 +7,8 @@ module "github_repository"{
   
   github_token = "<YOUR GITHUB TOKEN>"
   repository_name = "example"
-  description = "my first repository created with module"
-  visibility = "private"
-  branches = ["dev"]
+  description = "my first repository created with terraform module"
+  visibility = "private" // or "public"
+  branches = ["dev"] // main branch is automatically created
 }
 ~~~
