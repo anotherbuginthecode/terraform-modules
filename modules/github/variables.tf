@@ -1,3 +1,9 @@
+variable "github_token" {
+  type = string
+  description = "Your github token that allows you to manage your repositories (create, delete...)"
+  sensitive = true
+}
+
 variable "repository_name" {
   type = string
   description = "The name of your repository"
