@@ -15,7 +15,7 @@ variable "visibility" {
 
   validation {
     condition     = contains(["public", "private"], var.visibility)
-    error_message = "Valid values for var: visibility are (public, private)"
+    error_message = "Valid values for var: visibility are (public, private)."
   } 
 }
 
