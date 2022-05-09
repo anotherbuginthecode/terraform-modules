@@ -13,8 +13,3 @@ resource "github_branch" "branches" {
     repository = "${github_repository.repository.name}"
     branch     =  "${each.key}"
 }
-
-resource "github_branch_default" "default"{
-  repository = github_repository.repository.name
-  branch     = "${var.default_branch}"
-}

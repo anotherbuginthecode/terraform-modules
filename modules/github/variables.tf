@@ -25,12 +25,6 @@ variable "visibility" {
   } 
 }
 
-variable "default_branch" {
-  type =  string
-  description = "(Optional) The branch name to start from. Defaults to master."
-  default = "master"
-}
-
 variable "branches" {
   type = list
   description = "Initialize your repository with additional branches"
