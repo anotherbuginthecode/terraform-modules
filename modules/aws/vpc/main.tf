@@ -14,7 +14,7 @@ resource "aws_vpc" "vpc" {
 resource "aws_subnet" "public" {
     count = length(var.public_subnets) > 0 ? length(var.public_subnets) : 0
     
-    vpc_id = "${aws_vpc.main.id}"
+    vpc_id = "${aws_vpc.vpc.id}"
     cidr_block = "${var.public_subnets[count.index]}"
     map_public_ip_on_launch = "${var.map_public_ip_on_launch}"
     availability_zone = "${var.azs[count.index]}"
@@ -28,7 +28,7 @@ resource "aws_subnet" "public" {
 resource "aws_subnet" "private" {
     count = length(var.private_subnets) > 0 ? length(var.private_subnets) : 0
 
-    vpc_id = "${aws_vpc.main.id}"
+    vpc_id = "${aws_vpc.vpc.id}"
     cidr_block = "${var.private_subnets[count.index]}"
     availability_zone = "${var.azs[count.index]}"
 
@@ -40,7 +40,7 @@ resource "aws_subnet" "private" {
 
 # Internet GW
 resource "aws_internet_gateway" "i-gw" {
-    vpc_id = "${aws_vpc.main.id}"
+    vpc_id = "${aws_vpc.vpc.id}"
     tags = {
         Name = "${vpc_name}"
     }
@@ -48,10 +48,10 @@ resource "aws_internet_gateway" "i-gw" {
 
 # Routes tables
 resource "aws_route_table" "public" {
-    vpc_id = "${aws_vpc.main.id}"
+    vpc_id = "${aws_vpc.vpc.id}"
     route {
         cidr_block = "0.0.0.0/0"
-        gateway_id = "${aws_internet_gateway.main-gw.id}"
+        gateway_id = "${aws_internet_gateway.vpc-gw.id}"
     }
 
     tags = {
@@ -64,5 +64,5 @@ resource "aws_route_table_association" "public" {
     count = length(var.public_subnets) > 0 ? length(var.public_subnets) : 0
 
     subnet_id = element(aws_subnet.public[*].id, count.index)
-    route_table_id = "${aws_route_table.main-public.id}"
+    route_table_id = "${aws_route_table.public.id}"
 }
