@@ -4,7 +4,7 @@ variable "vpc_name" {
   default = "main"
 }
 
-variable "cidr_block" {
+variable "cidr" {
   type = string
   description =  "CIDR BLOCK for your VPC. For more infos: https://docs.aws.amazon.com/vpc/latest/userguide/configure-your-vpc.html. Default is valid, but not accepted by AWS."
   default     = "0.0.0.0/0"
