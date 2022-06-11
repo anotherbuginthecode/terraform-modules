@@ -11,21 +11,21 @@ module "create_user" {
   force_destroy = false
   keybase_user = "<YOUR-KEYBASE-NAME>"
   policies = [
-    {
-        "name": "test_policy",
-        "policy":{
-        "Version": "2012-10-17",
-        "Statement": [
-            {
-            "Action": [
-                "ec2:Describe*"
-            ],
-            "Effect": "Allow",
-            "Resource": "*"
+        {
+            "name": "test_policy",
+            "policy":{
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                "Action": [
+                    "ec2:Describe*"
+                ],
+                "Effect": "Allow",
+                "Resource": "*"
+                }
+            ]
             }
-        ]
         }
-    }
     ]
 }
 
