@@ -2,6 +2,7 @@ resource "aws_iam_user" "user" {
   name = "${var.user}"
   force_destroy = "${var.force_destroy}"
   path = "/${var.user}/"
+
 }
 
 resource "aws_iam_access_key" "key" {
@@ -10,11 +11,11 @@ resource "aws_iam_access_key" "key" {
 }
 
 resource "aws_iam_user_policy" "policy" {
-  for_each = toset("${var.policies}")
+  for_each = { for pl in var.policies: pl.name => pl }
 
-  name = "${each.name}"
+  name = "${each.value.name}"
   user = aws_iam_user.user.name
-  policy = jsonencode("${each.policy}")
+  policy = jsonencode("${each.value.policy}")
 
 }
 
