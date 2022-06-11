@@ -16,6 +16,6 @@ variable "keybase_user" {
 
 variable "policies" {
   type = list
-  description = "(Required) Array policies document. They are a JSON formatted string. "
+  description = "(Optional) Array policies document. They are a JSON formatted string. "
   default = []
 }
