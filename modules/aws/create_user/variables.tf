@@ -1,7 +1,6 @@
 variable "user" {
   type = string
   description = "(Required) The user's name"
-  default = ""
 }
 
 variable "force_destroy" {
