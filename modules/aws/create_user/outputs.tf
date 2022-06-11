@@ -4,6 +4,6 @@ output "access_key_id" {
 }
 
 output "secret" {
-  value = aws_iam_access_key.user.encrypted_secret
+  value = aws_iam_access_key.key.encrypted_secret
   description = "secret key generated for the user"
 }
