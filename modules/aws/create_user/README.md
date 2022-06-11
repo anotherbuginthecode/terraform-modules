@@ -1,4 +1,4 @@
-# TERRAFORM + AWS = create a new vpc
+# TERRAFORM + AWS = create a new programmatic user
 
 ### How to use
 ~~~
