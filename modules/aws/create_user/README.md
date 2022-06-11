@@ -9,7 +9,7 @@ module "create_user" {
 
   user = "testuser"
   force_destroy = false
-  keybase_user = "< YOUR-KEYBASE-NAME >"
+  keybase_user = "<YOUR-KEYBASE-NAME>"
   policies =[
     {
         "name": "test_policy",
