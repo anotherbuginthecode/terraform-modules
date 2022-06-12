@@ -1,5 +1,7 @@
 # TERRAFORM + AWS = create a new programmatic user
 
+**Keybase**: https://keybase.io/
+
 ### How to use
 ~~~
 provider "aws" {}
