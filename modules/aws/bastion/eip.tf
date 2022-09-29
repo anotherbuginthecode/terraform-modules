@@ -1,0 +1,17 @@
+resource "aws_eip" "eip" {
+  count = var.associate_eip ? 1 : 0
+  vpc   = true
+  tags = merge(
+      var.tags,
+      {
+      Name       = "${var.name}-eip"
+      Created_at = timestamp()
+      }
+  )
+}
+
+resource "aws_eip_association" "eip_assoc" {
+  count         = var.associate_eip ? 1 : 0
+  instance_id   = aws_instance.bastion.id
+  allocation_id = aws_eip.eip_manager.id
+}
