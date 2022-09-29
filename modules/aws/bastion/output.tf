@@ -4,5 +4,5 @@ output "bastion-security-group-id" {
 }
 
 output "bastion-ip" {
-    value = aws_instance.bastion.instance_public_ip
+    value = aws_instance.bastion.public_ip
 }
