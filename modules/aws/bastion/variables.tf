@@ -33,3 +33,9 @@ variable "associate_eip" {
   description = "(Optional) if true an elastic ip will be associated to the bastion host"
   default = false
 }
+
+variable "tags" {
+  type = map(string)
+  description = "(optional) tags associated to resource"
+  default = {}
+}
