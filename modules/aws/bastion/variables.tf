@@ -34,8 +34,15 @@ variable "associate_eip" {
   default = false
 }
 
+variable "path_to_public_key" {
+  type = string
+  description = "(optional) if you want to use your personal pub key"
+  default = null
+}
+
 variable "tags" {
   type = map(string)
   description = "(optional) tags associated to resource"
   default = {}
 }
+
