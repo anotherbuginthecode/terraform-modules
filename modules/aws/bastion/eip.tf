@@ -12,5 +12,5 @@ resource "aws_eip" "eip" {
 
 resource "aws_eip_association" "eip_assoc" {
   instance_id   = aws_instance.bastion.id
-  allocation_id =  var.associate_eip == true ? aws_eip.eip.id : null
+  allocation_id =  var.associate_eip == true ? aws_eip.eip[0].id : null
 }
