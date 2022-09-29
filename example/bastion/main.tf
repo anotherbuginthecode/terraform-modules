@@ -3,7 +3,7 @@ variable "secret_key" {}
 variable "region" {
   default = "eu-west-1"
 }
-variable "cidr_block" {}
+variable "ingress_cidr" {}
 variable "keypair_name" {}
 
 terraform {
@@ -46,7 +46,7 @@ module "bastion" {
   vpc_id = data.aws_vpcs.default.ids[0]
   subnet_id = data.aws_subnets.subnet.ids[0]
   instance_type = "t3.nano"
-  ingress_cidr = var.cidr_block
+  ingress_cidr = var.ingress_cidr
   keypair_name = var.keypair_name
 
 }
