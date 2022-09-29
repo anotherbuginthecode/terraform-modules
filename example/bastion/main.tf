@@ -3,8 +3,10 @@ variable "secret_key" {}
 variable "region" {
   default = "eu-west-1"
 }
-variable "ingress_cidr" {}
 variable "keypair_name" {}
+variable "path_to_public_key" {}
+variable "ingress_cidr" {}
+
 
 terraform {
   required_providers {
@@ -39,6 +41,13 @@ data "aws_subnets" "subnet" {
   }
 }
 
+// find my ip
+data "http" "myip" {
+  url = "https://ipv4.icanhazip.com"
+}
+
+
+
 module "bastion" {
   source = "git::github.com/anotherbuginthecode/terraform-modules//modules/aws/bastion"
 
@@ -46,7 +55,17 @@ module "bastion" {
   vpc_id = data.aws_vpcs.default.ids[0]
   subnet_id = data.aws_subnets.subnet.ids[0]
   instance_type = "t3.nano"
-  ingress_cidr = var.ingress_cidr
+  ingress_cidr = ["${chomp(data.http.myip.body)}/32"]
   keypair_name = var.keypair_name
+  path_to_public_key = var.path_to_public_key
+  associate_eip = true
 
+}
+
+output "bastion-sg" {
+  value = module.bastion.bastion-security-group-id
+}
+
+output "bastion-ip" {
+  value = module.bastion.bastion-ip
 }
