@@ -49,6 +49,7 @@ variable "environment_variables" {
   type = map
   description  = "(Optional) Environmente variables to add to the lambda."
   default = {}
+  sensitive = true
 }
 
 variable "create_policy" {
