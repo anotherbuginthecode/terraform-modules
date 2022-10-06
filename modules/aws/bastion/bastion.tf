@@ -31,7 +31,6 @@ resource "aws_instance" "bastion" {
     {
       Name       = var.name
       Purpose    = "Bastion-Host"
-      Created_at = timestamp()
     }
   )
 } 
