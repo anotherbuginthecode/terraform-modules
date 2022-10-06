@@ -5,7 +5,6 @@ resource "aws_eip" "eip" {
       var.tags,
       {
       Name       = "${var.name}-eip"
-      Created_at = timestamp()
       }
   )
 }
