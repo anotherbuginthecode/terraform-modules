@@ -26,11 +26,9 @@ resource "aws_instance" "bastion" {
     encrypted = var.root_block_device_encryption
   }
 
-  tags = merge(
-    var.tags,
-    {
-      Name       = var.name
-      Purpose    = "Bastion-Host"
-    }
-  )
+  tags = {
+    Name       = var.name
+    Purpose    = "Bastion-Host"
+  }
+  
 } 
