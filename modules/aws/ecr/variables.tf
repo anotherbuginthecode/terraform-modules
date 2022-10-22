@@ -22,5 +22,15 @@ variable "tags" {
 variable "policy" {
   type = string
   description = "(Optional) Lifecycle policy of ECR Images."
+}
 
+variable "expiration_days" {
+  type = number
+  description = "(Optional) image older than ecr_expiration_days will be deleted. Default is 7"
+  default = 7
+}
+
+variable "enable_lifecycle_expiration_policy" {
+  type = bool
+  description = "(Optional) set true if you want to delete images older than expiration_days"
 }

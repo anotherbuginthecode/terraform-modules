@@ -12,8 +12,27 @@ resource "aws_ecr_repository" "ecr_repository" {
 }
 
 resource "aws_ecr_lifecycle_policy" "ecr_policy" {
+  count = var.enable_lifecycle_policy ? 1 : 0
   repository = aws_ecr_repository.ecr_repository.name
-  policy = "${var.policy}"
+  policy               = <<EOF
+{
+    "rules": [
+        {
+            "rulePriority": 1,
+            "description": "Expire images older than ${var.expiration_days} days",
+            "selection": {
+                "tagStatus": "untagged",
+                "countType": "sinceImagePushed",
+                "countUnit": "days",
+                "countNumber": ${var.expiration_days}
+            },
+            "action": {
+                "type": "expire"
+            }
+        }
+    ]
+}
+EOF
 }
 
 
