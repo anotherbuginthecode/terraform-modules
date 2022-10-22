@@ -1,12 +1,23 @@
-variable "lb_name" {}
+variable "lb_name" {
+  type = string
+}
 
-variable "internal" {}
+variable "internal" {
+  type = bool
+  default = false
+}
 
-variable "vpc_id" {}
+variable "vpc_id" {
+  type = string
+}
 
-variable "vpc_subnets" {}
+variable "vpc_subnets" {
+  type =  list(string)
+}
 
-variable "domain" {}
+variable "domain" {
+  type = string
+}
 
 # variable "default_target_arn" {
 #   default = ""
