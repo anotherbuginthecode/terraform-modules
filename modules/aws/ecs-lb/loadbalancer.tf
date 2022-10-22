@@ -40,7 +40,7 @@ locals {
   forward_response = [
     {
       type             = "forward"
-      target_group_arn = var.default_target_arn
+      target_group_arn = var.create_target_group ? aws_lb_target_group.lb_target_group.arn : null
     }
   ]
 }
@@ -53,7 +53,7 @@ resource "aws_lb_listener" "lb-https" {
   certificate_arn   = data.aws_acm_certificate.certificate[0].arn
 
   dynamic "default_action" {
-    for_each = var.default_target_arn == "" ? local.fixed_response : local.forward_response
+    for_each = var.create_target_group ? local.fixed_response : local.forward_response
     content {
       target_group_arn = default_action.value.target_group_arn
       type             = default_action.value.type
@@ -76,7 +76,7 @@ resource "aws_lb_listener" "lb-http" {
   protocol          = "HTTP"
 
   dynamic "default_action" {
-    for_each = var.default_target_arn == "" ? local.fixed_response : local.forward_response
+    for_each = var.create_target_group ? local.fixed_response : local.forward_response
     content {
       target_group_arn = default_action.value.target_group_arn
       type             = default_action.value.type
