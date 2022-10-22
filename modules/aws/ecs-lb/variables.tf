@@ -73,11 +73,6 @@ variable "target_group_name" {
   default = ""
 }
 
-variable "target_group_port_protocol" {
-  type = string
-  default = "HTTP"
-}
-
 variable "ecs_target_port" {
   type = string
 }
