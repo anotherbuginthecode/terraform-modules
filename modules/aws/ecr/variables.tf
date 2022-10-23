@@ -1,4 +1,4 @@
-variable "name" {
+avariable "name" {
   type = string
   description = "(Required) Name of the repository."
 }
