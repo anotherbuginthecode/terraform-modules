@@ -1,9 +1,9 @@
-variable "app_name" {
+variable "cluster_name" {
   type        = string
   description = "Application Name"
 }
 
-variable "app_environment" {
+variable "cluster_environment" {
   type        = string
   description = "Application Environment"
 }
