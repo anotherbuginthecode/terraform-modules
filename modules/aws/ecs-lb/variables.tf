@@ -17,6 +17,7 @@ variable "vpc_subnets" {
 
 variable "domain" {
   type = string
+  default = ""
 }
 
 # variable "default_target_arn" {
