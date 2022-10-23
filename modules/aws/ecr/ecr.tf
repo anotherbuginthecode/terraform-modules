@@ -12,7 +12,7 @@ resource "aws_ecr_repository" "ecr_repository" {
 }
 
 resource "aws_ecr_lifecycle_policy" "ecr_policy" {
-  count = var.enable_lifecycle_policy ? 1 : 0
+  count = var.enable_lifecycle_expiration_policy ? 1 : 0
   repository = aws_ecr_repository.ecr_repository.name
   policy               = <<EOF
 {
