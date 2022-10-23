@@ -8,7 +8,7 @@ resource "aws_cloudwatch_metric_alarm" "cpu_alarm" {
   namespace = "AWS/EC2"
   period = "120"
   statistic = "Average"
-  threshold = var.cpu_threshold
+  threshold = "${var.cpu_threshold}"
   dimensions = {
     "AutoScalingGroupName" = "${var.autoscaling_group_name}"
   }
