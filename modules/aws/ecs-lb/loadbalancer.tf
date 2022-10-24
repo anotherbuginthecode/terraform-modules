@@ -40,7 +40,7 @@ locals {
   forward_response = [
     {
       type             = "forward"
-      target_group_arn = var.create_target_group ? aws_lb_target_group.lb_target_group.arn : null
+      target_group_arn = var.create_target_group ? aws_lb_target_group.lb_target_group[*].arn : null
     }
   ]
 }
