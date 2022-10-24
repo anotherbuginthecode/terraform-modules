@@ -23,7 +23,7 @@ variable "iam_instance_profile" {
   default = ""
 }
 
-variable "create_ec2_sg" {
+variable "create_sg" {
   type = bool
   default = false
 }
