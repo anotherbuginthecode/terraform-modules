@@ -1,3 +1,3 @@
 output "sg_arn" {
-  value = aws_security_group.ec2_sg.arn
+  value = one(aws_security_group.ec2_sg[*].arn)
 }
