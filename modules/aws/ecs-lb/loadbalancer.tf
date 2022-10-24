@@ -93,11 +93,11 @@ data "aws_acm_certificate" "certificate" {
 # }
 
 resource "aws_alb_listener" "http" {
-  load_balancer_arn = aws_lb.ecs_alb.id
+  load_balancer_arn = aws_lb.lb.id
   port              = local.service_port
   protocol          = "HTTP"
   default_action {
-    target_group_arn = aws_lb_target_group.lb_target_group.arn
+    target_group_arn = aws_lb_target_group.lb_target_group[*].arn
     type             = "forward"
   }
 }
