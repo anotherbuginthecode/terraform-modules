@@ -53,7 +53,7 @@ resource "aws_lb_listener" "lb-https" {
   certificate_arn   = data.aws_acm_certificate.certificate[0].arn
 
   dynamic "default_action" {
-    for_each = var.create_target_group ? local.fixed_response : local.forward_response
+    for_each = var.create_target_group ? local.forward_response : local.fixed_response
     content {
       target_group_arn = default_action.value.target_group_arn
       type             = default_action.value.type
@@ -76,7 +76,7 @@ resource "aws_lb_listener" "lb-http" {
   protocol          = "HTTP"
 
   dynamic "default_action" {
-    for_each = var.create_target_group ? local.fixed_response : local.forward_response
+    for_each = var.create_target_group ? local.forward_response : local.fixed_response
     content {
       target_group_arn = default_action.value.target_group_arn
       type             = default_action.value.type
