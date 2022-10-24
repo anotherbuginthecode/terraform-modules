@@ -38,7 +38,7 @@ echo 'ECS_CLUSTER=${cluster_name}' > /etc/ecs/ecs.config
 start ecs
 EOF
 
-  iam_instance_profile = var.iam_instance_profile == "" ? aws_iam_instance_profile.ecs_agent.arn : var.iam_instance_profile
+  iam_instance_profile = var.iam_instance_profile
 }
 
 resource "aws_launch_configuration" "ecs_config_launch_config_default" {
@@ -58,5 +58,5 @@ echo 'ECS_CLUSTER=${cluster_name}' > /etc/ecs/ecs.config
 start ecs
 EOF
 
-  iam_instance_profile = var.iam_instance_profile == "" ? aws_iam_instance_profile.ecs_agent.arn : var.iam_instance_profile
+  iam_instance_profile = var.iam_instance_profile
 }
