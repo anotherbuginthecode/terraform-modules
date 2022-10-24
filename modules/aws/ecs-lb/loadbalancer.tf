@@ -27,67 +27,77 @@ data "aws_acm_certificate" "certificate" {
 }
 
 # lb listener (https)
-locals {
-  fixed_response = [
-    {
-      type             = "fixed-response"
-      content_type     = "text/plain"
-      message_body     = "No service configured at this address"
-      status_code      = 404
-      target_group_arn = null
-    }
-  ]
-  forward_response = [
-    {
-      type             = "forward"
-      target_group_arn = var.create_target_group ? aws_lb_target_group.lb_target_group[*].arn : null
-    }
-  ]
-}
-resource "aws_lb_listener" "lb-https" {
-  count             = var.tls ? 1 : 0
-  load_balancer_arn = aws_lb.lb.arn
-  port              = "443"
-  protocol          = "HTTPS"
-  ssl_policy        = var.tls_policy
-  certificate_arn   = data.aws_acm_certificate.certificate[0].arn
+# locals {
+#   fixed_response = [
+#     {
+#       type             = "fixed-response"
+#       content_type     = "text/plain"
+#       message_body     = "No service configured at this address"
+#       status_code      = 404
+#       target_group_arn = null
+#     }
+#   ]
+#   forward_response = [
+#     {
+#       type             = "forward"
+#       target_group_arn = var.create_target_group ? aws_lb_target_group.lb_target_group[*].arn : null
+#     }
+#   ]
+# }
+# resource "aws_lb_listener" "lb-https" {
+#   count             = var.tls ? 1 : 0
+#   load_balancer_arn = aws_lb.lb.arn
+#   port              = "443"
+#   protocol          = "HTTPS"
+#   ssl_policy        = var.tls_policy
+#   certificate_arn   = data.aws_acm_certificate.certificate[0].arn
 
-  dynamic "default_action" {
-    for_each = var.create_target_group ? local.forward_response : local.fixed_response
-    content {
-      target_group_arn = default_action.value.target_group_arn
-      type             = default_action.value.type
-      dynamic "fixed_response" {
-        for_each = default_action.value.type == "fixed-response" ? [1] : []
-        content {
-          content_type = default_action.value.content_type
-          message_body = default_action.value.message_body
-          status_code  = default_action.value.status_code
-        }
-      }
-    }
-  }
-}
+#   dynamic "default_action" {
+#     for_each = var.create_target_group ? local.forward_response : local.fixed_response
+#     content {
+#       target_group_arn = default_action.value.target_group_arn
+#       type             = default_action.value.type
+#       dynamic "fixed_response" {
+#         for_each = default_action.value.type == "fixed-response" ? [1] : []
+#         content {
+#           content_type = default_action.value.content_type
+#           message_body = default_action.value.message_body
+#           status_code  = default_action.value.status_code
+#         }
+#       }
+#     }
+#   }
+# }
 
 # lb listener (http)
-resource "aws_lb_listener" "lb-http" {
-  load_balancer_arn = aws_lb.lb.arn
-  port              = "80"
-  protocol          = "HTTP"
+# resource "aws_lb_listener" "lb-http" {
+#   load_balancer_arn = aws_lb.lb.arn
+#   port              = "80"
+#   protocol          = "HTTP"
 
-  dynamic "default_action" {
-    for_each = var.create_target_group ? local.forward_response : local.fixed_response
-    content {
-      target_group_arn = default_action.value.target_group_arn
-      type             = default_action.value.type
-      dynamic "fixed_response" {
-        for_each = default_action.value.type == "fixed-response" ? [1] : []
-        content {
-          content_type = default_action.value.content_type
-          message_body = default_action.value.message_body
-          status_code  = default_action.value.status_code
-        }
-      }
-    }
+#   dynamic "default_action" {
+#     for_each = var.create_target_group ? local.forward_response : local.fixed_response
+#     content {
+#       target_group_arn = default_action.value.target_group_arn
+#       type             = default_action.value.type
+#       dynamic "fixed_response" {
+#         for_each = default_action.value.type == "fixed-response" ? [1] : []
+#         content {
+#           content_type = default_action.value.content_type
+#           message_body = default_action.value.message_body
+#           status_code  = default_action.value.status_code
+#         }
+#       }
+#     }
+#   }
+# }
+
+resource "aws_alb_listener" "http" {
+  load_balancer_arn = aws_lb.ecs_alb.id
+  port              = local.service_port
+  protocol          = "HTTP"
+  default_action {
+    target_group_arn = aws_lb_target_group.lb_target_group.arn
+    type             = "forward"
   }
 }
