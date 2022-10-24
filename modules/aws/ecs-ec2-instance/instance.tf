@@ -44,7 +44,7 @@ EOF
     delete_on_termination = "true"
   }
 
-  tags {
+  tags = {
     Name                   = "${var.cluster_name}-ec2"
     CreatedAt              = timestamp()
   }
