@@ -22,3 +22,8 @@ variable "ssh_cidr_blocks" {
 variable "log_retention_days" {
   default = 0
 }
+
+variable "ecs_capacity_provider" {
+  type = list(string)
+  default = []
+}
