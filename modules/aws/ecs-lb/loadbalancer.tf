@@ -94,7 +94,7 @@ data "aws_acm_certificate" "certificate" {
 
 resource "aws_alb_listener" "http" {
   load_balancer_arn = aws_lb.lb.id
-  port              = local.service_port
+  port              =  "80"
   protocol          = "HTTP"
   default_action {
     target_group_arn = aws_lb_target_group.lb_target_group[*].arn
