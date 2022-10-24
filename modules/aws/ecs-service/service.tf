@@ -2,7 +2,7 @@ resource "aws_ecs_service" "service" {
   cluster                = var.cluster_id
   desired_count          = var.desired_count
   launch_type            = "EC2"
-  name                   = "${var.serivce_name}" 
+  name                   = "${var.service_name}" 
   task_definition        = "${var.task_definition_arn}" 
   load_balancer {
     container_name       = "${var.container_name}"

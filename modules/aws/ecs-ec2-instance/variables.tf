@@ -68,3 +68,8 @@ variable "ssh_keypair" {
   type = string
   description = "(optional) keypair to ssh connection"
 }
+
+variable "security_group_id" {
+  type = list(string)
+  default = []
+}
