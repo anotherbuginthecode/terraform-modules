@@ -38,7 +38,7 @@ sudo start ecs
 echo ECS_CLUSTER=${var.cluster_name} >> /etc/ecs/ecs.config
 cat /etc/ecs/ecs.config | grep "ECS_CLUSTER"
 EOF
-  root_block_device = {
+  root_block_device {
     volume_type           = "gp2"
     volume_size           = "${var.volume_size}"
     delete_on_termination = "true"
@@ -47,7 +47,7 @@ EOF
   tags {
     Name                   = "${var.cluster_name}-ec2"
     CreatedAt              = timestamp()
-}
+  }
 
   lifecycle {
     ignore_changes         = ["ami", "user_data", "subnet_id", "key_name", "ebs_optimized", "private_ip"]
