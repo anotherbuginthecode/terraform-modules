@@ -97,7 +97,7 @@ resource "aws_alb_listener" "http" {
   port              =  "80"
   protocol          = "HTTP"
   default_action {
-    target_group_arn = aws_lb_target_group.lb_target_group[*].arn
+    target_group_arn = one(aws_lb_target_group.lb_target_group[*].arn)
     type             = "forward"
   }
 }
