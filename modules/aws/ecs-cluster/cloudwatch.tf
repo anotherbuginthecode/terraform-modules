@@ -1,8 +1,8 @@
 resource "aws_cloudwatch_log_group" "log-group" {
-  name = "${var.app_name}-${var.app_environment}-logs"
+  name = "${var.cluster_name}-${var.cluster_environment}-logs"
 
   tags = {
-    Application = var.app_name
-    Environment = var.app_environment
+    Application = var.cluster_name
+    Environment = var.cluster_environment
   }
 }
