@@ -75,6 +75,13 @@ module "ecs-cluster" {
   cluster_name = "demo-cluster"
   vpc_id = module.vpc.vpc_id
   log_group = "demo-cluster-log"  
+}
+
+module "ecs-capacity-provider" {
+  source = "git::github.com/anotherbuginthecode/terraform-modules//modules/aws/ecs-capacity-provider"
+
+  cluster_name = module.ecs-cluster.cluster_name
   auto_scaling_group_arn = module.ecs-launch-config-ec2.asg_arn
+  
 }
 
