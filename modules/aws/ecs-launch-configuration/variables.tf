@@ -23,12 +23,12 @@ variable "cluster_environment" {
   default     = "prod"
 }
 
-variable "min_spot" {
+variable "min_instances" {
   default     = "2"
   description = "The minimum EC2 spot instances to be available. Default is 2"
 }
 
-variable "max_spot" {
+variable "max_instances" {
   default     = "5"
   description = "The maximum EC2 spot instances that can be launched at peak time. Default is 5"
 }
@@ -37,6 +37,7 @@ variable "max_spot" {
 variable "ssh_keypair" {
   type = string
   description = "(optional) keypair to ssh connection"
+  default = ""
 }
 
 variable "iam_instance_profile" {
