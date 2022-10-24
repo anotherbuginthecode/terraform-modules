@@ -55,10 +55,26 @@ module "vpc" {
 
 }
 
+
+module "ecs-launch-config-ec2" {
+  source = "git::github.com/anotherbuginthecode/terraform-modules//modules/aws/ecs-launch-configuration"
+  
+  cluster_name = module.ecs-cluster.cluster_name
+  cluster_environment = "dev"
+  ec2_spot = false
+  min_instances = 1
+  max_instances = 1
+  iam_instance_profile = module.ecs-cluster.cluster_iam_instance_profile
+  instance_type = "t2.micro"
+  vpc_id = module.vpc.vpc_id
+}
+
 module "ecs-cluster" {
   source = "git::github.com/anotherbuginthecode/terraform-modules//modules/aws/ecs-cluster"
 
   cluster_name = "demo-cluster"
   vpc_id = module.vpc.vpc_id
   log_group = "demo-cluster-log"  
+  auto_scaling_group_arn = module.ecs-launch-config-ec2.asg_arn
 }
+

@@ -22,3 +22,8 @@ variable "ssh_cidr_blocks" {
 variable "log_retention_days" {
   default = 0
 }
+
+variable "auto_scaling_group_arn" {
+  type = string
+  default = ""
+}

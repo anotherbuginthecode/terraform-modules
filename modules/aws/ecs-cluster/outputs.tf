@@ -9,3 +9,7 @@ output "cluster_id" {
 output "cluster_name" {
   value = aws_ecs_cluster.ecs_cluster.name
 }
+
+output "cluster_iam_instance_profile" {
+  value = aws_iam_instance_profile.cluster-ec2-role.id
+}
