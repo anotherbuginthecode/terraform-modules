@@ -51,6 +51,11 @@ variable "allow_additional_sg" {
   default = {}
 }
 
+variable "allow_ssh" {
+  type = bool
+  default = false
+}
+
 variable "ssh_keypair" {
   type = string
   description = "(optional) keypair to ssh connection"
