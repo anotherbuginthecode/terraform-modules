@@ -1,9 +1,24 @@
-variable "cluster_name" {
-  type        = string
-  description = "Application Name"
+variable "log_group" {
 }
 
-variable "cluster_environment" {
-  type        = string
-  description = "Application Environment"
+variable "vpc_id" {
+}
+
+variable "cluster_name" {
+}
+
+variable "enable_ssh" {
+  default = false
+}
+
+variable "ssh_sg" {
+  default = ""
+}
+
+variable "ssh_cidr_blocks" {
+  default = ""
+}
+
+variable "log_retention_days" {
+  default = 0
 }

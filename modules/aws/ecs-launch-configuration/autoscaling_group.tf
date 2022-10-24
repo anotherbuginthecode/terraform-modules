@@ -1,7 +1,7 @@
 resource "aws_autoscaling_group" "ecs_cluster_spot" {
   name_prefix = "${var.cluster_name}-${var.cluster_environment}-asg-spot"
   termination_policies = [
-     "OldestInstance" 
+     "OldestInstance", "default"
   ]
   default_cooldown          = 30
   health_check_grace_period = 30

@@ -2,7 +2,7 @@ variable "vpc_id" {
   type = string
 }
 
-variable "instance_type_spot" {
+variable "instance_type" {
   default = "t3a.medium"
   type    = string
 }
@@ -33,25 +33,18 @@ variable "max_spot" {
   description = "The maximum EC2 spot instances that can be launched at peak time. Default is 5"
 }
 
-variable "tcp_ingress" {
-  type = map(list(string))
-  default = {
-    "80" = [ "0.0.0.0/0" ]
-    "443" = [ "0.0.0.0/0" ]
-  }
-}
-
-variable "allow_additional_sg" {
-  type = map(object({
-    security_groups = list(string)
-    from_port       = string
-    to_port         = string
-    protocol        = string
-  }))
-  default = {}
-}
 
 variable "ssh_keypair" {
   type = string
   description = "(optional) keypair to ssh connection"
+}
+
+variable "iam_instance_profile" {
+  type = string
+  default = ""
+}
+
+variable "ec2_spot" {
+  type = bool
+  default = false
 }
