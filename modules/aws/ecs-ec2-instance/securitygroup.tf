@@ -1,5 +1,5 @@
 resource "aws_security_group" "ec2_sg" {
-  count = var.create_ec2_sg ? 1 : 0
+  count = var.create_sg ? 1 : 0
   name        = var.sg_name
   vpc_id      = var.vpc_id
   description = "EC2 spot security group for ${var.cluster_name}"
