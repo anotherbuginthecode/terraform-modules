@@ -25,7 +25,7 @@ resource "aws_instance" "ec2_instance" {
   subnet_id              =  var.subnet_id
   instance_type          =  var.instance_type
   iam_instance_profile   =  var.iam_instance_profile == "" ? "ecsInstanceRole" : var.iam_instance_profile
-  vpc_security_group_ids =  var.create_ec2_sg ? [aws_security_group.ec2_sg.security_group_id] : var.security_group_id
+  vpc_security_group_ids =  var.create_sg ? [aws_security_group.ec2_sg.security_group_id] : var.security_group_id
   key_name               =  var.allow_ssh ? var.ssh_keypair : null
   ebs_optimized          = "false"
   source_dest_check      = "false"
