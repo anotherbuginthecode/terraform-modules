@@ -7,7 +7,7 @@ module "py-lambda" {
 
   source_dir = "./code"
   output_path = "./pylambda.zip"
-  bucket = "lambdademobucket-1"
+  bucket = "mypylambdabucket"
   bucket_key = "code/pylambda.zip"
   function_name = "my-py-lambda"
   runtime = "python3.8"
@@ -40,7 +40,7 @@ module "hello-endpoint" {
   lambda_arn = module.py-lambda.function_arn
   apigw_id =  module.api-gw.id
   apigw_execution_arn = module.api-gw.execution_arn
-  method = "get"
+  method = "get" #or "GET"
   path = "/hello"
 
 }
