@@ -1,0 +1,21 @@
+[
+    {
+      "name": "nginx",
+      "image": "{AWS-ACCOUNT-ID}.dkr.ecr.{AWS-REGION}.amazonaws.com/nginx:latest",
+      "cpu": 10,
+      "memory": 256,
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 80
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": { 
+          "awslogs-group" : "/ecs/nginx",
+          "awslogs-region": "{AWS-REGION}"
+        }
+      }
+    }
+]
