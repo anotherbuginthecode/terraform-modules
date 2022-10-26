@@ -3,13 +3,20 @@ resource "aws_apigatewayv2_api" "api-gw" {
   protocol_type = "HTTP"
   description = var.description
   disable_execute_api_endpoint =  var.domain != "" ? true : false
-  cors_configuration = var.cors_configuration
+  dynamic cors_configuration {
+    for_each = var.cors_configuration
+    content {
+      allow_origins = each.value.allow_origins
+      allow_methods = each.value.allow_methods
+      allow_headers = each.value.allow_headers
+    }
+  }
 }
 
 resource "aws_apigatewayv2_stage" "api-gw" {
+  count = var.stage != "" ? 1 : 0
   api_id = aws_apigatewayv2_api.api-gw.id
-
-  name        = "serverless_lambda_stage"
+  name        = var.stage
   auto_deploy = true
 
   access_log_settings {
@@ -46,7 +53,7 @@ data "aws_route53_zone" "zone" {
   private_zone = true
 }
 
-resource "aws_apigatewayv2_domain_name" "api-gw" {
+resource "aws_apigatewayv2_domain_name" "domain" {
   count    = var.domain != "" ? 1 : 0
   domain_name = var.domain
 
@@ -57,14 +64,15 @@ resource "aws_apigatewayv2_domain_name" "api-gw" {
   }
 }
 
-resource "aws_route53_record" "api-gw" {
-  name    = aws_apigatewayv2_domain_name.api-gw.domain_name
+resource "aws_route53_record" "domain" {
+  count    = var.domain != "" ? 1 : 0
+  name    = aws_apigatewayv2_domain_name.domain[0].domain_name
   type    = "A"
   zone_id = data.aws_route53_zone.zone[0].zone_id
 
   alias {
-    name                   = aws_apigatewayv2_domain_name.api-gw.domain_name_configuration[0].target_domain_name
-    zone_id                = aws_apigatewayv2_domain_name.api-gw.domain_name_configuration[0].hosted_zone_id
+    name                   = aws_apigatewayv2_domain_name.domain[0].domain_name_configuration[0].target_domain_name
+    zone_id                = aws_apigatewayv2_domain_name.domain[0].domain_name_configuration[0].hosted_zone_id
     evaluate_target_health = false
   }
 }

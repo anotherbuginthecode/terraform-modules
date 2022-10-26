@@ -46,10 +46,9 @@ variable "memory_size" {
 }
 
 variable "environment_variables" {
-  type = map
+  type = list(map(string))
   description  = "(Optional) Environmente variables to add to the lambda."
-  default = {}
-  sensitive = true
+  default = []
 }
 
 variable "create_policy" {

@@ -13,3 +13,13 @@ variable "domain" {
   type = string
   description = "(Optional) your domain name to associate to api gateway"
 }
+
+variable "cors_configuration" {
+  type = map(string)
+  default = {}
+}
+
+variable "stage" {
+  type = string
+  default = ""
+}
