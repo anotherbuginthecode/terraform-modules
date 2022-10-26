@@ -58,16 +58,6 @@ variable "create_policy" {
   default = false
 }
 
-variable "role_arn" {
-  type = string
-  description = "(Required) The AWS Role ARN associated to the lambda."
-}
-
-variable "role_name" {
-  type = string
-  description = "(Required) The AWS Role name associated to the lambda."
-}
-
 variable "policy_name" {
   type = string
   description = "(Required) The policy name associated to the lambda."
