@@ -1,6 +1,6 @@
 # define lambda role
 resource "aws_iam_role" "lambda_exec" {
-  name = "${var.function_name}-role"
+  name = replace("${var.function_name}_role","-","_")
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
