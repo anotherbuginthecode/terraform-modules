@@ -61,6 +61,7 @@ variable "create_policy" {
 variable "policy_name" {
   type = string
   description = "(Required) The policy name associated to the lambda."
+  default =  ""
 }
 
 variable "policy_description" {
