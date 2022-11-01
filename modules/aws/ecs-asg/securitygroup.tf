@@ -25,6 +25,13 @@ resource "aws_security_group" "cluster" {
     }
   }
 
+  ingress {
+    from_port                = 32768
+    to_port                  = 61000
+    protocol                 = "tcp"
+    security_groups          = var.loadbalancer_sg
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -37,11 +44,11 @@ resource "aws_security_group" "cluster" {
   }
 }
 
-resource "aws_security_group_rule" "cluster-allow-lb" {
-  security_group_id = aws_security_group.cluster.id
-  type                     = "ingress"
-  from_port                = 32768
-  to_port                  = 61000
-  protocol                 = "tcp"
-  source_security_group_id = var.loadbalancer_sg
-}
+# resource "aws_security_group_rule" "cluster-allow-lb" {
+#   security_group_id = aws_security_group.cluster.id
+#   type                     = "ingress"
+#   from_port                = 32768
+#   to_port                  = 61000
+#   protocol                 = "tcp"
+#   source_security_group_id = var.loadbalancer_sg
+# }
