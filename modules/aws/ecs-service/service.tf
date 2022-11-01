@@ -2,7 +2,7 @@ resource "aws_ecs_service" "service" {
   name            = var.service_name
   cluster         = var.cluster_id
   task_definition = var.task_definition_arn
-  desired_count   = var.task_count
+  desired_count   = var.desired_task_count
   force_new_deployment = true
 
   ordered_placement_strategy {
@@ -22,3 +22,4 @@ resource "aws_ecs_service" "service" {
   launch_type = "EC2"
 
 }
+
