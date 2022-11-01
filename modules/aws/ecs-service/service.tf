@@ -3,6 +3,7 @@ resource "aws_ecs_service" "service" {
   cluster         = var.cluster_id
   task_definition = var.task_definition_arn
   desired_count   = var.task_count
+  force_new_deployment = true
 
   ordered_placement_strategy {
     type  = var.ordered_placement_strategy_type
