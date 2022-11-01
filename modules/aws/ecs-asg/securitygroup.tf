@@ -29,7 +29,7 @@ resource "aws_security_group" "cluster" {
     from_port                = 32768
     to_port                  = 61000
     protocol                 = "tcp"
-    security_groups          = var.loadbalancer_sg
+    security_groups          = [var.loadbalancer_sg]
   }
 
   egress {
