@@ -21,7 +21,7 @@ EOF
 resource "aws_iam_role_policy_attachment" "ecs-autoscale" {
   count = var.enable_autoscaling ? 1 : 0
 
-  role = aws_iam_role.ecs-autoscale-role.id
+  role = aws_iam_role.ecs-autoscale-role[0].id
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceAutoscaleRole"
 }
 
@@ -34,7 +34,7 @@ resource "aws_appautoscaling_target" "ecs_target" {
   resource_id        = "service/${var.cluster_name}/${var.service_name}"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
-  role_arn           = aws_iam_role.ecs-autoscale-role.arn
+  role_arn           = aws_iam_role.ecs-autoscale-role[0].arn
 }
 
 resource "aws_appautoscaling_policy" "ecs_target_cpu" {
@@ -42,9 +42,9 @@ resource "aws_appautoscaling_policy" "ecs_target_cpu" {
 
   name               = "application-scaling-policy-cpu"
   policy_type        = "TargetTrackingScaling"
-  resource_id        = aws_appautoscaling_target.ecs_target.resource_id
-  scalable_dimension = aws_appautoscaling_target.ecs_target.scalable_dimension
-  service_namespace  = aws_appautoscaling_target.ecs_target.service_namespace
+  resource_id        = aws_appautoscaling_target.ecs_target[0].resource_id
+  scalable_dimension = aws_appautoscaling_target.ecs_target[0].scalable_dimension
+  service_namespace  = aws_appautoscaling_target.ecs_target[0].service_namespace
 
   target_tracking_scaling_policy_configuration {
     predefined_metric_specification {
@@ -60,9 +60,9 @@ resource "aws_appautoscaling_policy" "ecs_target_memory" {
 
   name               = "application-scaling-policy-memory"
   policy_type        = "TargetTrackingScaling"
-  resource_id        = aws_appautoscaling_target.ecs_target.resource_id
-  scalable_dimension = aws_appautoscaling_target.ecs_target.scalable_dimension
-  service_namespace  = aws_appautoscaling_target.ecs_target.service_namespace
+  resource_id        = aws_appautoscaling_target.ecs_target[0].resource_id
+  scalable_dimension = aws_appautoscaling_target.ecs_target[0].scalable_dimension
+  service_namespace  = aws_appautoscaling_target.ecs_target[0].service_namespace
 
   target_tracking_scaling_policy_configuration {
     predefined_metric_specification {
