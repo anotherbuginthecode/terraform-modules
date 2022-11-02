@@ -76,3 +76,8 @@ variable "service_dns_description" {
   type = string
   default = ""
 }
+
+variable "vpc_id" {
+  type = string
+  default = null
+}
