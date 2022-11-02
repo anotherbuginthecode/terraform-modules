@@ -15,3 +15,12 @@ variable "network_mode" {
   default = "bridge"
 }
 
+variable "task_role_arn" {
+  type = string
+  default = null
+}
+
+variable "execution_role_arn" {
+  type = string
+  default = null
+}
