@@ -61,3 +61,18 @@ variable "target_average_memory_utilizazion" {
   type = number
   default = 80
 }
+
+variable "enable_service_discovery" {
+  type = bool
+  default = false
+}
+
+variable "service_dns_name" {
+  type = string
+  default = ""
+}
+
+variable "service_dns_description" {
+  type = string
+  default = ""
+}

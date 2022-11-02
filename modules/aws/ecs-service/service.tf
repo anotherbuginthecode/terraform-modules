@@ -21,5 +21,12 @@ resource "aws_ecs_service" "service" {
   }
   launch_type = "EC2"
 
+  dynamic service_registries {
+    for_each = var.enable_service_discovery ? {"service_arn" = "${aws_service_discovery_service.service[0].arn}"} : {}
+    content{
+      registry_arn = each.value.service_arn    
+    }
+  }
+
 }
 
