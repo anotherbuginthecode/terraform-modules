@@ -11,7 +11,7 @@ resource "aws_service_discovery_service" "service" {
   
   name = var.service_name
   dns_config {
-    namespace_id = "${aws_service_discovery_private_dns_namespace.service[0].service.id}"
+    namespace_id = "${aws_service_discovery_private_dns_namespace.service[0].id}"
     routing_policy = "MULTIVALUE"
     dns_records {
       ttl = 10
