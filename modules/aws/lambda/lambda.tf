@@ -1,4 +1,20 @@
 # define lambda function
+data "aws_security_groups" "default" {
+  filter {
+    name   = "Name"
+    values = ["default"]
+  }
+
+  filter {
+    name   = "vpc-id"
+    values = [var.vpc_id]
+  }
+}
+
+locals {
+  security_group_ids = length(var.security_group_ids) > 0 ? var.security_group_ids : [data.aws_security_groups.default.id]
+}
+
 
 resource "aws_lambda_function" "lambda" {
 
@@ -17,10 +33,15 @@ resource "aws_lambda_function" "lambda" {
 
   layers = var.layers
   
-dynamic "environment" {
+  dynamic "environment" {
     for_each = var.environment_variables
     content {
       variables = environment.value
     }
+  }
+
+  vpc_config {
+    subnet_ids = var.deploy_in_vpc ? var.subnet_ids : null
+    security_group_ids = var.deploy_in_vpc ?  local.security_group_ids : null
   }
 }
