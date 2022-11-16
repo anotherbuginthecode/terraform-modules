@@ -12,7 +12,7 @@ data "aws_security_groups" "default" {
 }
 
 locals {
-  security_group_ids = length(var.security_group_ids) > 0 ? var.security_group_ids : [data.aws_security_groups.default.id]
+  security_group_ids = length(var.security_group_ids) > 0 ? var.security_group_ids : data.aws_security_groups.default.ids
 }
 
 
