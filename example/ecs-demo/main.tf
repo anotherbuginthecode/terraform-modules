@@ -64,7 +64,7 @@ module "ecs-asg" {
 
   cluster_name = "demoecs"
   instance_type = "t2.micro"
-  key_name = <YOUR-SSH-KEY>
+  key_name = "lab-ssh-key"
   vpc_id = module.vpc.vpc_id
   subnets = module.vpc.public_subnets
   target_group_arn = module.ecs-alb.tg_arn
@@ -73,10 +73,14 @@ module "ecs-asg" {
   force_delete = true
   protect_from_scale_in = true
 
+  tcp_ingress = {
+    "22": ["0.0.0.0/0"]
+  }
+
   loadbalancer_sg = module.ecs-alb.lb_sg
 
   min_size = 1
-  max_size = 1
+  max_size = 3
 
   depends_on = [
     module.vpc,
@@ -101,7 +105,7 @@ module "nginx-task-def" {
 
   # cluster_name = "demoecs"
   task_name = "nginx-task-def"
-  task_definition = file("container-definitions/container-def.json") # remember to replace with your info
+  task_definition = file("container-definitions/nginx.json") # remember to replace with your info
   network_mode = "bridge"
 }
 
@@ -111,10 +115,32 @@ module "nginx-service" {
 
   service_name = "nginx-service"
   cluster_id = module.ecs-cluster.id
+  cluster_name = module.ecs-cluster.name
   task_definition_arn = module.nginx-task-def.arn
-  task_count = 1
+  desired_task_count = 1
+  max_task_count = 2
+  enable_autoscaling = false
+  # target_average_cpu_utilizazion = 80
+  # target_average_memory_utilizazion = 80
   target_group_arn = module.ecs-alb.tg_arn
   container_name = "nginx"
   container_port = 80
-  
+}
+
+# outputs
+
+output "cluster" {
+  value = module.ecs-cluster.name
+}
+
+output "cluster_id" {
+  value = module.ecs-cluster.id
+}
+
+output "loadbalancer-endpoint" {
+  value = module.ecs-alb.endpoint
+}
+
+output "asg-name" {
+  value = module.ecs-asg.name
 }
