@@ -57,6 +57,18 @@ variable "create_policy" {
   default = false
 }
 
+variable "create_role" {
+  type = bool
+  description = "(Optional) Set to true if you want to create a custom role for the lambda. Default is false."
+  default = false
+}
+
+variable "role_arn" {
+  type = string
+  description = "(optional) if create_role=false pass a IAM Role to associate to the lambda"
+  default = null
+}
+
 variable "policy_name" {
   type = string
   description = "(Required) The policy name associated to the lambda."
