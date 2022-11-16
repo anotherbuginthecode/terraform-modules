@@ -97,3 +97,27 @@ variable "provider_alias" {
   type = string
   default = null
 }
+
+variable "retention_in_days" {
+  type = number
+  default = 30
+}
+
+variable "deploy_in_vpc" {
+  type = bool
+  description = "(optional) Set true if you need your VPC inside a VPC. Default is false"
+  default = false
+}
+
+variable "subnet_ids" {
+  type = list(string)
+}
+
+variable "security_group_ids" {
+  type = list(string)
+}
+
+variable "vpc_id" {
+  type = string
+  description = ""
+}
