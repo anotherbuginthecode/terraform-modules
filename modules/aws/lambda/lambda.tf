@@ -1,7 +1,7 @@
 # define lambda function
 data "aws_security_groups" "default" {
   filter {
-    name   = "name"
+    name   = "group-name"
     values = ["default"]
   }
 
