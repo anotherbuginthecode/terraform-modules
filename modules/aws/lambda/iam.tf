@@ -30,6 +30,12 @@ resource "aws_iam_role_policy_attachment" "lambda_policy_basic" {
   policy_arn  = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
+resource "aws_iam_role_policy_attachment" "lambda_policy_vpc" {
+  count = var.deploy_in_vpc ? 1 : 0
+  role = aws_iam_role.lambda_exec[0].name
+  policy_arn  = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+}
+
 resource "aws_iam_role_policy_attachment" "lambda_policy_custom" {
   count = var.create_policy ? 1 : 0
   role = aws_iam_role.lambda_exec[0].name
