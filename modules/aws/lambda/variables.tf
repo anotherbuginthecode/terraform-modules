@@ -111,10 +111,12 @@ variable "deploy_in_vpc" {
 
 variable "subnet_ids" {
   type = list(string)
+  default = []
 }
 
 variable "security_group_ids" {
   type = list(string)
+  default = []
 }
 
 variable "vpc_id" {
