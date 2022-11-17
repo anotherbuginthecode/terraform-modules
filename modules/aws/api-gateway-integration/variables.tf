@@ -25,3 +25,13 @@ variable "path" {
 variable "apigw_execution_arn" {
   type = string
 }
+
+variable "enable_cognito_authorizer" {
+  type = bool
+  default = false
+}
+
+variable "authorizer_id" {
+  type = string
+  default = ""
+}

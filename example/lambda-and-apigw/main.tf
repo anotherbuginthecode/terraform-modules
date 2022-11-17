@@ -5,18 +5,21 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket = "<YOUR-BACKEND-BUCKET>"
+    bucket = "lambdademobucket-1"
     key    = "state/terraform.tfstate"
-    region = "<AWS-REGION>"
+    region = "eu-west-1"
   }
 }
+
+variable "cognito_client_id" {}
+variable "cognito_user_pool_id" {}
 
 module "py-lambda" {
   source = "git::github.com/anotherbuginthecode/terraform-modules//modules/aws/lambda"
 
   source_dir = "./code"
   output_path = "./pylambda.zip"
-  bucket = "mypylambdabucket"
+  bucket = "lambdademobucket-1"
   bucket_key = "code/pylambda.zip"
   function_name = "my-py-lambda"
   runtime = "python3.8"
@@ -28,18 +31,34 @@ module "py-lambda" {
 
 
 # create api-gw
+# module "api-gw" {
+#   source = "git::github.com/anotherbuginthecode/terraform-modules//modules/aws/api-gateway"
+#   name = "demoapigw"
+#   description = "API gateway for demo"  
+#   domain = ""
+#   cors_configuration = {}
+#   stage = "v1"
+# }
+
+# create api-gw and protect with cognito
 module "api-gw" {
-  source = "git::github.com/anotherbuginthecode/terraform-modules//modules/aws/api-gateway"
+  # source = "git::github.com/anotherbuginthecode/terraform-modules//modules/aws/api-gateway"
+  source = "../../modules/aws/api-gateway"
   name = "demoapigw"
   description = "API gateway for demo"  
   domain = ""
   cors_configuration = {}
   stage = "v1"
+  enable_cognito_authorizer = true
+  cognito_client_id = var.cognito_client_id
+  cognito_user_pool_id =  var.cognito_user_pool_id
+  cognito_region = "eu-west-1"
 }
 
 # create endpoint
 module "hello-endpoint" {
-  source = "git::github.com/anotherbuginthecode/terraform-modules//modules/aws/api-gateway-integration"
+  # source = "git::github.com/anotherbuginthecode/terraform-modules//modules/aws/api-gateway-integration"
+  source = "../../modules/aws/api-gateway-integration"
 
   integration_type = "lambda"
   lambda_name = module.py-lambda.function_name
@@ -49,6 +68,8 @@ module "hello-endpoint" {
   method = "get" # or GET
   path = "/hello"
 
+  enable_cognito_authorizer = true
+  authorizer_id = module.api-gw.authorizer-id
 }
 
 # outputs
