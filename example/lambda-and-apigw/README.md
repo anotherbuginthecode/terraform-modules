@@ -30,6 +30,23 @@ module "api-gw" {
 }
 ```
 
+### create api-gw protected by cognito authorizer
+```terraform
+module "api-gw" {
+  source = "git::github.com/anotherbuginthecode/terraform-modules//modules/aws/api-gateway"
+  name = "demoapigw"
+  description = "API gateway for demo"  
+  domain = ""
+  cors_configuration = {}
+  stage = "v1"
+  enable_cognito_authorizer = true
+  cognito_client_id = var.cognito_client_id
+  cognito_user_pool_id =  var.cognito_user_pool_id
+  cognito_region = "eu-west-1"
+}
+
+```
+
 ### create endpoint
 ```terraform
 module "hello-endpoint" {
@@ -43,6 +60,24 @@ module "hello-endpoint" {
   method = "get" #or "GET"
   path = "/hello"
 
+}
+```
+
+### create endpoint and protect with authorizer
+```terraform
+module "hello-endpoint" {
+  source = "git::github.com/anotherbuginthecode/terraform-modules//modules/aws/api-gateway-integration"
+
+  integration_type = "lambda"
+  lambda_name = module.py-lambda.function_name
+  lambda_arn = module.py-lambda.function_arn
+  apigw_id =  module.api-gw.id
+  apigw_execution_arn = module.api-gw.execution_arn
+  method = "get" # or GET
+  path = "/hello"
+
+  enable_cognito_authorizer = true
+  authorizer_id = module.api-gw.authorizer-id
 }
 ```
 
