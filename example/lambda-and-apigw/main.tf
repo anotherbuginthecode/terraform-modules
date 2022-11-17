@@ -42,8 +42,7 @@ module "py-lambda" {
 
 # create api-gw and protect with cognito
 module "api-gw" {
-  # source = "git::github.com/anotherbuginthecode/terraform-modules//modules/aws/api-gateway"
-  source = "../../modules/aws/api-gateway"
+  source = "git::github.com/anotherbuginthecode/terraform-modules//modules/aws/api-gateway"
   name = "demoapigw"
   description = "API gateway for demo"  
   domain = ""
@@ -57,8 +56,7 @@ module "api-gw" {
 
 # create endpoint
 module "hello-endpoint" {
-  # source = "git::github.com/anotherbuginthecode/terraform-modules//modules/aws/api-gateway-integration"
-  source = "../../modules/aws/api-gateway-integration"
+  source = "git::github.com/anotherbuginthecode/terraform-modules//modules/aws/api-gateway-integration"
 
   integration_type = "lambda"
   lambda_name = module.py-lambda.function_name
