@@ -36,4 +36,5 @@ override.tf.json
 # MISC
 **/*.pub
 **/mykey
-**/*.zipexample/bastion/terraform.tfvars
+**/*.zip
+example/bastion/terraform.tfvars
