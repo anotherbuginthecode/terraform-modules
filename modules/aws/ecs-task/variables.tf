@@ -24,3 +24,8 @@ variable "execution_role_arn" {
   type = string
   default = null
 }
+
+variable "volume_mapping" {
+  type = map(string)
+  default = {}
+}
