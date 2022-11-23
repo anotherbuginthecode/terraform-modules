@@ -39,3 +39,8 @@ variable "target_group_name" {
 variable "health_check_path" {
   type = string
 }
+
+variable "volume_mapping" {
+  type = map(string)
+  default = {}
+}
