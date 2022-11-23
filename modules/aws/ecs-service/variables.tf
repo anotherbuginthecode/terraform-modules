@@ -47,6 +47,7 @@ variable "container_name" {
 
 variable "container_port" {
   type = number
+  default = null
 }
 
 variable "enable_autoscaling" {
