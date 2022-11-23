@@ -87,8 +87,8 @@ variable "vpc_id" {
 
 variable "attach_loadbalancer" {
   type = map(object({
-    "target_group_arn": string,
-    "container_port":  number
+    "target_group_arn" = string,
+    "container_port" =   number
   }))
 
   default = {}
