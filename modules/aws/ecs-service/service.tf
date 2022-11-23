@@ -10,15 +10,20 @@ resource "aws_ecs_service" "service" {
     field = var.ordered_placement_strategy_field
   }
 
-  load_balancer {
-    target_group_arn = var.target_group_arn
-    container_name   = var.container_name
-    container_port   = var.container_port
+  dynamic "load_balancer" {
+    for_each = var.attach_loadbalancer
+    content {
+      target_group_arn = load_balancer.value.target_group_arn
+      container_name   = load_balancer.key
+      container_port   = load_balancer.value.container_port
+    }
+
   }
   # Optional: Allow external changes without Terraform plan difference(for example ASG)
   lifecycle {
     ignore_changes = [desired_count]
   }
+
   launch_type = "EC2"
 
   dynamic service_registries {

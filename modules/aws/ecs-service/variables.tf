@@ -37,10 +37,12 @@ variable "ordered_placement_strategy_field" {
 
 variable "target_group_arn" {
   type = string
+  default = null
 }
 
 variable "container_name" {
   type = string
+  default = null
 }
 
 variable "container_port" {
@@ -80,4 +82,13 @@ variable "service_dns_description" {
 variable "vpc_id" {
   type = string
   default = null
+}
+
+variable "attach_loadbalancer" {
+  type = map(object({
+    "target_group_arn": string,
+    "container_port":  string
+  }))
+
+  default = {}
 }
