@@ -26,9 +26,9 @@ resource "aws_security_group" "cluster" {
   }
 
   ingress {
-    from_port                = 32768
-    to_port                  = 61000
-    protocol                 = "tcp"
+    from_port                = 0
+    to_port                  = 0
+    protocol                 = "-1"
     security_groups          = [var.loadbalancer_sg]
   }
 
