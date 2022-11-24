@@ -90,7 +90,7 @@ resource "aws_route53_record" "record-lb" {
   count = var.domain != "" ? 1 : 0
 
   zone_id = data.aws_route53_zone.zone[0].id
-  name = var.domain
+  name = var.subdomain != "" ? var.subdomain : var.domain
   type = "A"
 
   alias {
