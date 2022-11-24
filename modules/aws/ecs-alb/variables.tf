@@ -2,6 +2,11 @@ variable "name" {
   type = string
 }
 
+variable "domain" {
+  type = string
+  default = ""
+}
+
 variable "tcp_ingress" {
   type = map(list(string))
   default = {
