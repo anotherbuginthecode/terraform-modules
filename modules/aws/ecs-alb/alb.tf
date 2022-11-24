@@ -27,7 +27,24 @@ resource "aws_lb_target_group" "lb_target_group" {
   }
 }
 
-resource "aws_lb_listener" "http-listener" {
+
+data "aws_acm_certificate" "cert" {
+  count = var.domain != "" ? 1 : 0
+  domain = var.domain
+  statuses = ["ISSUED"]
+  most_recent = true
+}
+
+data "aws_route53_zone" "zone" {
+  count = var.domain != "" ? 1 : 0
+
+  name = var.domain
+  private_zone = false
+}
+
+resource "aws_lb_listener" "http-only" {
+  count = var.domain == "" ? 1 : 0
+
   load_balancer_arn = aws_lb.lb.arn
   port              = "80"
   protocol          = "HTTP"
@@ -35,4 +52,51 @@ resource "aws_lb_listener" "http-listener" {
     type             = "forward"
     target_group_arn = aws_lb_target_group.lb_target_group.arn
   }
+}
+
+resource "aws_lb_listener" "http" {
+  count = var.domain != "" ? 1 : 0
+
+  load_balancer_arn = aws_lb.lb.arn
+  port              = "80"
+  protocol          = "HTTP"
+  default_action {
+    type = "redirect"
+
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+}
+
+resource "aws_lb_listener" "https" {
+  count = var.domain != "" ? 1 : 0
+
+  load_balancer_arn = aws_lb.lb.arn
+  port              = "443"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = data.aws_acm_certificate.cert[0].arn
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.lb_target_group.arn
+  }
+}
+
+resource "aws_route53_record" "record-lb" {
+  count = var.domain != "" ? 1 : 0
+
+  zone_id = data.aws_route53_zone.zone[0].id
+  name = var.domain
+  type = "A"
+
+  alias {
+    name = replace(aws_lb.lb.dns_name, "/[.]$/","")
+    zone_id = "${data.aws_route53_zone.zone[0].id}"
+  }
+
+  depends_on = [aws_lb.lb]
 }
