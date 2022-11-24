@@ -36,6 +36,10 @@ sudo apt-get update
 sudo echo "ECS_CLUSTER=${var.cluster_name}" >> /etc/ecs/ecs.config
 EOF
 
+lifecycle {
+  ignore_changes = [image_id]
+}
+
 }
 
 resource "aws_autoscaling_group" "asg" {
