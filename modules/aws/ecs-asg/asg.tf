@@ -25,6 +25,7 @@ resource "aws_launch_configuration" "lc" {
   instance_type = var.instance_type
   lifecycle {
     create_before_destroy = true
+    ignore_changes = [image_id]
   }
   iam_instance_profile        = var.iam_instance_profile
   key_name                    = var.key_name
@@ -36,9 +37,6 @@ sudo apt-get update
 sudo echo "ECS_CLUSTER=${var.cluster_name}" >> /etc/ecs/ecs.config
 EOF
 
-lifecycle {
-  ignore_changes = [image_id]
-}
 
 }
 
