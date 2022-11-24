@@ -93,3 +93,8 @@ variable "attach_loadbalancer" {
 
   default = {}
 }
+
+variable "scheduling_strategy" {
+  type = string
+  default = "REPLICA"
+}

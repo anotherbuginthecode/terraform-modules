@@ -25,6 +25,7 @@ resource "aws_ecs_service" "service" {
   }
 
   launch_type = "EC2"
+  scheduling_strategy = var.scheduling_strategy
 
   dynamic service_registries {
     for_each = var.enable_service_discovery ? {"service_arn" = "${aws_service_discovery_service.service[0].arn}"} : {}
