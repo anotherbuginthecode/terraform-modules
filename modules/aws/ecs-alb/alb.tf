@@ -96,6 +96,7 @@ resource "aws_route53_record" "record-lb" {
   alias {
     name = replace(aws_lb.lb.dns_name, "/[.]$/","")
     zone_id = "${data.aws_route53_zone.zone[0].id}"
+    evaluate_target_health = true
   }
 
   depends_on = [aws_lb.lb]
