@@ -6,8 +6,8 @@ resource "aws_ecs_service" "service" {
   force_new_deployment = true
 
   ordered_placement_strategy {
-    type  = var.ordered_placement_strategy_type
-    field = var.ordered_placement_strategy_field
+    type  = var.scheduling_strategy == "REPLICA" ?  var.ordered_placement_strategy_type : null
+    field = var.scheduling_strategy == "REPLICA" ? var.ordered_placement_strategy_field : null
   }
 
   dynamic "load_balancer" {
