@@ -14,7 +14,7 @@ resource "aws_lb" "lb" {
 resource "aws_lb_target_group" "lb_target_group" {
   name        = var.target_group_name
   port        = var.target_group_port
-  protocol    = "HTTP"
+  protocol    = var.target_group_port == "443" ? "HTTPS" : "HTTP"
   target_type = "instance"
   vpc_id      = var.vpc_id
   health_check {
