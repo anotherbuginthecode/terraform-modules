@@ -57,6 +57,6 @@ variable "volume_mapping" {
 }
 
 variable "health_check_port" {
-  type = number
+  type = string
   default = null
 }
