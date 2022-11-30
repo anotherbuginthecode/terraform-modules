@@ -55,3 +55,8 @@ variable "volume_mapping" {
   type = map(string)
   default = {}
 }
+
+variable "health_check_port" {
+  type = number
+  default = null
+}

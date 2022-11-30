@@ -23,7 +23,8 @@ resource "aws_lb_target_group" "lb_target_group" {
     unhealthy_threshold = 10
     timeout             = 60
     interval            = 300
-    matcher             = "200,301,302"
+    port                = var.health_check_port 
+    matcher             = "200,301,302,204"
   }
 }
 
