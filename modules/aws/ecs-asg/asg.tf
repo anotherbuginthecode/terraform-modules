@@ -69,6 +69,15 @@ resource "aws_launch_template" "template" {
     associate_public_ip_address = true
   }
 
+  tag_specifications {
+    resource_type = "instance"
+
+    tags = {
+      "Name" = "${var.cluster_name}-EC2"
+    }
+
+  } 
+
   user_data = "${base64encode(data.template_file.user_data_hw.rendered)}"              
 
   lifecycle {
@@ -104,7 +113,7 @@ resource "aws_autoscaling_group" "asg" {
 
   tag {
     key                 = "Name"
-    value               = "${var.cluster_name}-ec2"
+    value               = "${var.cluster_name}-EC2"
     propagate_at_launch = true
   }
 
