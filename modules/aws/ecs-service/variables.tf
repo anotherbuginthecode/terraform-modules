@@ -98,3 +98,8 @@ variable "scheduling_strategy" {
   type = string
   default = "REPLICA"
 }
+
+variable "retention_in_days" {
+  type = number
+  default = 30
+}
