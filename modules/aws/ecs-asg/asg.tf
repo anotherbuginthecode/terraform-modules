@@ -38,6 +38,13 @@ data "aws_ami" "amazon_linux" {
 # EOF
 # }
 
+data "template_file" "user_data_hw" {
+  template =  <<EOF
+#! /bin/bash
+sudo apt-get update
+sudo echo "ECS_CLUSTER=${var.cluster_name}" >> /etc/ecs/ecs.config
+EOF
+}
 
 resource "aws_launch_template" "template" {
   name = "${var.cluster_name}-template"
@@ -62,11 +69,7 @@ resource "aws_launch_template" "template" {
     associate_public_ip_address = true
   }
 
-  user_data                   = <<EOF
-#! /bin/bash
-sudo apt-get update
-sudo echo "ECS_CLUSTER=${var.cluster_name}" >> /etc/ecs/ecs.config
-EOF
+  user_data = "${base64encode(data.template_file.user_data_hw.rendered)}"              
 
   lifecycle {
     create_before_destroy = true
