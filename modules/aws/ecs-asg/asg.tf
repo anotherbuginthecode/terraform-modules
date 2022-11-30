@@ -58,7 +58,7 @@ resource "aws_launch_template" "template" {
   key_name = var.key_name
 
   block_device_mappings {
-    device_name = "/dev/sda1"
+    device_name = "/dev/xvda"
     ebs {
       volume_size = var.disk_size
     }
