@@ -56,7 +56,6 @@ resource "aws_launch_template" "template" {
   instance_initiated_shutdown_behavior = "terminate"
   instance_type = var.instance_type
   key_name = var.key_name
-  vpc_security_group_ids = ["${aws_security_group.cluster.id}"]
 
   block_device_mappings {
     device_name = "/dev/sda1"
@@ -66,7 +65,9 @@ resource "aws_launch_template" "template" {
   }
 
   network_interfaces {
+    security_groups = ["${aws_security_group.cluster.id}"]
     associate_public_ip_address = true
+    delete_on_termination = true
   }
 
   tag_specifications {
