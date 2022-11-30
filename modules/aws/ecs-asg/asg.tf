@@ -81,13 +81,18 @@ resource "aws_launch_template" "template" {
 resource "aws_autoscaling_group" "asg" {
 
   name                      = "${var.cluster_name}-asg"
-  launch_configuration      = aws_launch_template.template.name
+
   min_size                  = var.min_size
   max_size                  = var.max_size
   desired_capacity          = var.min_size
   health_check_type         = "ELB"
   health_check_grace_period = 300
   vpc_zone_identifier       = var.subnets
+
+  launch_template {
+    id = aws_launch_template.template.id
+    version = "$Latest"
+  }
 
   target_group_arns     = [var.target_group_arn]
   force_delete          = var.force_delete
