@@ -18,32 +18,67 @@ data "aws_ami" "amazon_linux" {
   owners = ["amazon", "self"]
 }
 
-resource "aws_launch_configuration" "lc" {
+# resource "aws_launch_configuration" "lc" {
 
-  name          = "${var.cluster_name}-launch-configuration"
-  image_id      = data.aws_ami.amazon_linux.id
-  instance_type = var.instance_type
-  lifecycle {
-    create_before_destroy = true
-    ignore_changes = [image_id]
+#   name          = "${var.cluster_name}-launch-configuration"
+#   image_id      = data.aws_ami.amazon_linux.id
+#   instance_type = var.instance_type
+#   lifecycle {
+#     create_before_destroy = true
+#     ignore_changes = [image_id]
+#   }
+#   iam_instance_profile        = var.iam_instance_profile
+#   key_name                    = var.key_name
+#   security_groups             = ["${aws_security_group.cluster.id}"]
+#   associate_public_ip_address = true
+#   user_data                   = <<EOF
+# #! /bin/bash
+# sudo apt-get update
+# sudo echo "ECS_CLUSTER=${var.cluster_name}" >> /etc/ecs/ecs.config
+# EOF
+# }
+
+
+resource "aws_launch_template" "template" {
+  name = "${var.cluster_name}-template"
+  disable_api_termination = true
+  iam_instance_profile {
+    name = var.iam_instance_profile
   }
-  iam_instance_profile        = var.iam_instance_profile
-  key_name                    = var.key_name
-  security_groups             = ["${aws_security_group.cluster.id}"]
-  associate_public_ip_address = true
+  image_id = data.aws_ami.amazon_linux.id
+  instance_initiated_shutdown_behavior = "terminate"
+  instance_type = var.instance_type
+  key_name = var.key_name
+  vpc_security_group_ids = ["${aws_security_group.cluster.id}"]
+
+  block_device_mappings {
+    device_name = "/dev/sda1"
+    ebs {
+      volume_size = var.disk_size
+    }
+  }
+
+  network_interfaces {
+    associate_public_ip_address = true
+  }
+
   user_data                   = <<EOF
 #! /bin/bash
 sudo apt-get update
 sudo echo "ECS_CLUSTER=${var.cluster_name}" >> /etc/ecs/ecs.config
 EOF
 
+  lifecycle {
+    create_before_destroy = true
+    ignore_changes = [image_id]
+  }
 
 }
 
 resource "aws_autoscaling_group" "asg" {
 
   name                      = "${var.cluster_name}-asg"
-  launch_configuration      = aws_launch_configuration.lc.name
+  launch_configuration      = aws_launch_template.template.name
   min_size                  = var.min_size
   max_size                  = var.max_size
   desired_capacity          = var.min_size

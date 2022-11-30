@@ -78,3 +78,13 @@ variable "loadbalancer_sg" {
   type = string
   default = null
 }
+
+variable "allow_cluster_lb" {
+  type = bool
+  default = false
+}
+
+variable "disk_size" {
+  type = number
+  default = 20
+}
