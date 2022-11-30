@@ -74,6 +74,7 @@ resource "aws_launch_template" "template" {
 
     tags = {
       "Name" = "${var.cluster_name}-EC2"
+      "Terraform" = "true"
     }
 
   } 
