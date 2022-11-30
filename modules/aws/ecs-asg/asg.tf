@@ -48,7 +48,7 @@ EOF
 
 resource "aws_launch_template" "template" {
   name = "${var.cluster_name}-template"
-  disable_api_termination = true
+
   iam_instance_profile {
     name = var.iam_instance_profile
   }
@@ -56,6 +56,8 @@ resource "aws_launch_template" "template" {
   instance_initiated_shutdown_behavior = "terminate"
   instance_type = var.instance_type
   key_name = var.key_name
+  disable_api_stop = false
+  disable_api_termination = false
 
   block_device_mappings {
     device_name = "/dev/xvda"
