@@ -60,3 +60,8 @@ variable "health_check_port" {
   type = string
   default = null
 }
+
+variable "target_group_port" {
+  type = string
+  default = "80"
+}

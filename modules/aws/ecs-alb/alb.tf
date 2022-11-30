@@ -13,7 +13,7 @@ resource "aws_lb" "lb" {
 
 resource "aws_lb_target_group" "lb_target_group" {
   name        = var.target_group_name
-  port        = "80"
+  port        = var.target_group_port
   protocol    = "HTTP"
   target_type = "instance"
   vpc_id      = var.vpc_id
