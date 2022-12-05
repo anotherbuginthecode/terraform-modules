@@ -51,7 +51,7 @@ data "aws_route53_zone" "zone" {
   count    = var.domain != "" ? 1 : 0
 
   name         = var.domain
-  private_zone = true
+  private_zone = false
 }
 
 resource "aws_apigatewayv2_domain_name" "domain" {
