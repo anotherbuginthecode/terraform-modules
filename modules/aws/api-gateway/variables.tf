@@ -14,6 +14,12 @@ variable "domain" {
   description = "(Optional) your domain name to associate to api gateway"
 }
 
+
+variable "subdomain" {
+  type = string
+  description = "(Optional) your sub-domain name to associate to api gateway. Use it when you need to create apigw under subdomains and use domain to provide SSL."
+}
+
 variable "cors_configuration" {
   type = map(string)
   default = {}

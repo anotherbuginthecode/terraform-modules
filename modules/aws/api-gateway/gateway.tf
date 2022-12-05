@@ -49,13 +49,15 @@ data "aws_acm_certificate" "certificate" {
 # route53 zone
 data "aws_route53_zone" "zone" {
   count    = var.domain != "" ? 1 : 0
+
   name         = var.domain
   private_zone = true
 }
 
 resource "aws_apigatewayv2_domain_name" "domain" {
   count    = var.domain != "" ? 1 : 0
-  domain_name = var.domain
+
+  domain_name = var.subdomain != "" ? var.subdomain : var.domain
 
   domain_name_configuration {
     certificate_arn = data.aws_acm_certificate.certificate[0].arn
